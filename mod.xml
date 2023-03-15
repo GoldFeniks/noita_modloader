@@ -1,0 +1,6 @@
+<Mod
+	name="ModLoader"
+	description="Somewhat useful set of functions to make running multiple mods easier"
+	request_no_api_restrictions="0" 
+> 
+</Mod>
