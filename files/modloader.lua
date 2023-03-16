@@ -63,6 +63,12 @@ modloader.append = make_smart_function(function (self, path, file)
     ModTextFileSetContent(appends, content .. path .. "\t" .. file .. "\n")
 end, { "self", "path", "file" })
 
+modloader.add_gui = make_smart_function(function (self, path)
+    local guis = self:__get_guis_path()
+    local content = ModTextFileGetContent(guis) or ""
+    ModTextFileSetContent(guis, content .. path .. "\n")
+end, { "self", "path" })
+
 modloader.finalize = function (self)
     local content = ModTextFileGetContent(MODLOADER_REGISTERED_PATH) or ""
     ModTextFileSetContent(MODLOADER_REGISTERED_PATH, content .. self.mod_id .. "\n")
@@ -78,5 +84,9 @@ end
 
 modloader.__get_entity_patches_path = function (self)
     return string.format(MOD_ENTITY_PATCHES_TEMPLATE, self.mod_id)
+end
+
+modloader.__get_guis_path = function (self)
+    return string.format(MOD_GUIS_TEMPLATE, self.mod_id)
 end
 

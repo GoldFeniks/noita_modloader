@@ -24,6 +24,11 @@ for mod_id in string.gmatch(registered, "([%w_]+)\n") do
 
         table.insert(list, { mod_id=mod_id, patch=patch })
     end
+
+    local guis = ModTextFileGetContent(mod:__get_guis_path()) or ""
+    for gui in string.gmatch(guis, "([^\n\t]+)\n") do
+        ModLuaFileAppend(MODLOADER_MAIN_GUI_PATH, gui)
+    end
 end
 
 
@@ -41,4 +46,14 @@ end
 
 for _, entity in pairs(entities.__descriptors) do
     entity:save()
+end
+
+function OnPlayerSpawned(player_entity)
+    dofile(MODLOADER_MAIN_GUI_PATH)
+end
+
+function OnWorldPostUpdate()
+    if __IN_CASE_GUI_IS_OVERRIDEN_GUI and __IN_CASE_GUI_IS_OVERRIDEN_GUI.__main_render then
+        __IN_CASE_GUI_IS_OVERRIDEN_GUI.__main_render()
+    end
 end

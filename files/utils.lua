@@ -9,14 +9,12 @@ function parse_arguments(names, defaults, ...)
     if type(values[idx]) == "table" and values.n == idx and getmetatable(values[idx]) == nil then
         arg = values[idx]
         values[idx] = arg[names[idx]]
-    end
-
-    setmetatable(arg, { __index=defaults })
+    end    
 
     local result = {}
     for i=1,#names do
-        result[i] = values[i] or arg[names[i]]
-    end
+        result[i] = values[i] or arg[names[i]] or defaults[names[i]]
+    end    
 
     return result
 end
@@ -33,6 +31,4 @@ function make_smart_function(func, names, defaults)
     return function (...)
         return func(table.unpack(parse_arguments(names, defaults, ...), 1, #names))   --table.unpack(arg)
     end
-
-    -- return result
 end
