@@ -28,7 +28,7 @@ gui_object.__make_render_function = function(self, func, params)
     end, params)
 end
 
-gui_object.new = make_smart_function(function (self, x, y, options, update, extra)
+gui_object.new = make_smart_function(function (self, x, y, options, extra)
     local object = extra or {}
     object.x  = x or 0
     object.y  = y or 0
@@ -36,10 +36,9 @@ gui_object.new = make_smart_function(function (self, x, y, options, update, extr
     object.info = info:new()
     object.options = options or {}
     object.enabled = true
-    object.update = update
 
     return base.new(self, object)
-end, { "self", "x", "y", "options", "update", "extra" })
+end, { "self", "x", "y", "options" })
 
 gui_object.populate_info = function (self)
     self.info:populate()

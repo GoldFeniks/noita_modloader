@@ -7,18 +7,10 @@ image.__name = "image"
 image.__index = image
 
 image.new = make_smart_function(
-    function (self, x, y, sprite_filename, alpha, scale, scale_y, rotation, rect_animation_playback_type, rect_animation_name, options, update)
-        return gui_object.new(self, x, y, options, update, {
-            sprite_filename=sprite_filename,
-            alpha=alpha,
-            scale=scale,
-            scale_y=scale_y,
-            rotation=rotation,
-            rect_animation_playback_type=rect_animation_playback_type,
-            rect_animation_name=rect_animation_name
-        })
+    function (self, extra)
+        return gui_object.new(self, extra)
     end,
-    { "self", "x", "y", "sprite_filename", "alpha", "scale", "scale_y", "rotation", "rect_animation_name", "rect_animation_name", "options", "update" },
+    { "self" },
     { alpha=1, scale=1, scale_y=0, rotation=0, rect_animation_playback_type=GUI_RECT_ANIMATION_PLAYBACK.PlayToEndAndHide, rect_animation_name="" }
 )
 
@@ -30,16 +22,10 @@ image_nine_piece.__name = "image_nine_piece"
 image_nine_piece.__index = image_nine_piece
 
 image_nine_piece.new = make_smart_function(
-    function (self, x, y, width, height, alpha, sprite_filename, sprite_highlight_filename, options, update)
-        return gui_object.new(self, x, y, options, update, {
-            width=width,
-            height=height,
-            alpha=alpha,
-            sprite_filename=sprite_filename,
-            sprite_highlight_filename=sprite_highlight_filename
-        })
+    function (self, extra)
+        return gui_object.new(self, extra)
     end,
-    { "self", "x", "y", "width", "height", "alpha", "sprite_filename", "sprite_highlight_filename", "options", "update" },
+    { "self" },
     { alpha=1, sprite_filename="data/ui_gfx/decorations/9piece0_gray.png", sprite_highlight_filename="data/ui_gfx/decorations/9piece0_gray.png" }
 )
 

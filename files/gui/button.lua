@@ -5,15 +5,6 @@ button = gui_object:new()
 button.__name = "button"
 button.__index = button
 
-button.new = make_smart_function(function (self, x, y, text, on_clicked, on_right_clicked, options, update, extra)
-    extra = extra or {}
-    extra.text = text
-    extra.on_clicked = on_clicked
-    extra.on_right_clicked = on_right_clicked
-
-    return gui_object.new(self, x, y, options, update, extra)
-end, { "self", "x", "y", "text", "on_clicked", "on_right_clicked", "options", "update", "extra"})
-
 button.__handle_clicks = function (self)
     if self.clicked and self.on_clicked ~= nil then
         self:on_clicked()
@@ -42,10 +33,6 @@ end, { "self", "x", "y", "text" })
 image_button = button:new()
 image_button.__name = "image_button"
 image_button.__index = image_button
-
-image_button.new = make_smart_function(function (self, x, y, text, sprite_filename, on_clicked, on_right_clicked, options, update)
-    return button.new(self, x, y, text, on_clicked, on_right_clicked, options, update, { sprite_filename=sprite_filename })
-end, { "self", "x", "y", "text", "sprite_filename", "on_clicked", "on_right_clicked", "options", "update" })
 
 image_button.render = make_smart_function(function (self, x, y, text, sprite_filename)
     self.clicked, self.right_clicked = GuiImageButton(

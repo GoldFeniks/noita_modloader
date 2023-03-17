@@ -9,15 +9,10 @@ horizontal_layout.__spacing_function = GuiLayoutAddHorizontalSpacing
 horizontal_layout.__layout_begin_function = GuiLayoutBeginHorizontal
 
 horizontal_layout.new = make_smart_function(
-    function (self, x, y, position_in_ui_scale, margin_x, margin_y, before_child_render, children, options, update)
-        return container.new(self, x, y, children, options, update, {
-            position_in_ui_scale=position_in_ui_scale,
-            margin_x=margin_x,
-            margin_y=margin_y,
-            before_child_render=before_child_render
-        })
+    function (self, extra)
+        return container.new(self, extra)
     end,
-    { "self", "x", "y", "position_in_ui_scale", "margin_x", "margin_y", "before_child_render", "children", "options", "update" },
+    { "self" },
     { position_in_ui_scale=false, margin_x=2, margin_y=2 }
 )
 
@@ -80,9 +75,9 @@ vertical_layout.__spacing_function = GuiLayoutAddVerticalSpacing
 vertical_layout.__layout_begin_function = GuiLayoutBeginVertical
 
 vertical_layout.new = make_smart_function(
-    function (self, x, y, position_in_ui_scale, margin_x, margin_y, before_child_render, children, options, update)
-        return horizontal_layout.new(self, x, y, position_in_ui_scale, margin_x, margin_y, before_child_render, children, options, update)
+    function (self, extra)
+        return horizontal_layout.new(self, extra)
     end,
-    { "self", "x", "y", "position_in_ui_scale", "margin_x", "margin_y", "before_child_render", "children", "options", "update" },
+    { "self" },
     { position_in_ui_scale=false, margin_x=0, margin_y=0 }
 )

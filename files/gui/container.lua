@@ -6,13 +6,6 @@ container.__name = "container"
 container.__index = container
 container.__needs_id = false
 
-container.new = make_smart_function(function (self, x, y, children, options, update, extra)
-    extra = extra or {}
-    extra.children = children or {}
-
-    return gui_object.new(self, x, y, options, update, extra)
-end, { "self", "x", "y", "children", "options", "update", "extra" })
-
 container.__render = function (self, ...)
     for i, child in ipairs(self.children) do
         if self.before_child_render then
@@ -62,16 +55,10 @@ scroll_container.__index = scroll_container
 scroll_container.__needs_id = true
 
 scroll_container.new = make_smart_function(
-    function (self, x, y, width, height, scrollbar_gamepad_focusable, margin_x, margin_y, children, options, update)
-        return container.new(self, x, y, children, options, update, {
-            width=width,
-            height=height,
-            scrollbar_gamepad_focusable=scrollbar_gamepad_focusable,
-            margin_x=margin_x,
-            margin_y=margin_y
-        })
+    function (self, extra)
+        return container.new(self, extra)
     end,
-    { "self", "x", "y", "width", "height", "scrollbar_gamepad_focusable", "margin_x", "margin_y", "children", "options", "update" },
+    { "self" },
     { scrollbar_gamepad_focusable=true, margin_x=2, margin_y=2 }
 )
 
