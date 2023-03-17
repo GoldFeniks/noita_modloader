@@ -84,5 +84,9 @@ gui_object.render = function (self, ...)
     local result = self:__render(...)
     self:populate_info()
 
+    if self.info.hovered and self.on_hover then
+        self:on_hover(self.__gui.get_current_gui())
+    end
+
     return result
 end
