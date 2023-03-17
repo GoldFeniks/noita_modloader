@@ -8,7 +8,7 @@ gui_item.__name = "gui_item"
 gui_item.__index = gui_item
 
 gui_item.new = make_smart_function(function (self, name)
-    return base.new(self, { name=name, objects={} })
+    return base.new(self, { name=name, objects={}, first_init=true })
 end, { "self", "name" })
 
 gui_item.render = function (self)
@@ -100,7 +100,14 @@ gui.__render = function(self)
 
     for _, item in pairs(self.items) do
         if not item.initialized and item.initialize then
+            item.initialized = nil
+
             item:initialize(self.__gui)
+            item.first_init = false
+
+            if item.initialized ~= nil then
+                item.initialized = true
+            end
         end
 
         if item.update then
@@ -123,6 +130,36 @@ gui.__main_render = function (self)
 end
 
 gui.main = gui:new()
+gui.inventory_open = gui:new()
+gui.inventory_closed = gui:new()
+
+function __update_inventory_gui(func)
+    return function (self)
+        if func() then
+            if self.__gui == nil then
+                self.__gui = GuiCreate()
+            end
+
+            return true
+        end
+
+        if self.__gui ~= nil then
+            GuiDestroy(self.__gui)
+            self.__gui = nil
+
+            for _, item in pairs(self.items) do
+                item.initialized = false
+            end
+        end
+
+        return false
+    end
+end
+
+gui.inventory_open.__update = __update_inventory_gui(GameIsInventoryOpen)
+gui.inventory_closed.__update = __update_inventory_gui(function ()
+    return not GameIsInventoryOpen()
+end)
 
 __IN_CASE_GUI_IS_OVERRIDEN_GUI = gui
 
