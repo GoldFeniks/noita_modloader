@@ -1,9 +1,18 @@
 dofile_once("mods/modloader/files/utils.lua")
+dofile_once("mods/modloader/files/gui/text.lua")
+dofile_once("mods/modloader/files/gui/image.lua")
 dofile_once("mods/modloader/files/gui/gui_object.lua")
 
 button = gui_object:new()
 button.__name = "button"
-button.__index = button
+button.__index = function (self, key)
+    if key == "width" or key == "height" then
+        local width, height = text.__get_text_dimensions(self)
+        return key == "width" and width or height
+    end
+    
+    return button[key]
+end
 
 button.__handle_clicks = function (self)
     if self.clicked and self.on_clicked ~= nil then
@@ -32,7 +41,14 @@ end, { "self", "x", "y", "text" })
 
 image_button = button:new()
 image_button.__name = "image_button"
-image_button.__index = image_button
+image_button.__index = function (self, key)
+    if key == "width" or key == "height" then
+        local width, height = image.__get_image_dimensions(self)
+        return key == "width" and width or height
+    end
+
+    return image_button[key]
+end
 
 image_button.render = make_smart_function(function (self, x, y, text, sprite_filename)
     self.clicked, self.right_clicked = GuiImageButton(
