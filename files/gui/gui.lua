@@ -105,7 +105,7 @@ gui.__render = function(self)
             item:initialize(self.__gui)
             item.first_init = false
 
-            if item.initialized ~= nil then
+            if item.initialized == nil then
                 item.initialized = true
             end
         end
