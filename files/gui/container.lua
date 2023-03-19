@@ -45,11 +45,11 @@ container.remove_child = make_smart_function(function (self, child)
     return false
 end, { "self", "child" })
 
-container.update = function (self)
+container.update = function (self, gui)
+    gui_object.update(self, gui)
+
     for _, child in ipairs(self.children) do
-        if child.update ~= nil then
-            child:update(gui)
-        end
+        child:update(gui)
     end
 end
 

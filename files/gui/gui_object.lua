@@ -95,3 +95,9 @@ gui_object.render = function (self, ...)
 
     return result
 end
+
+gui_object.update = function (self, gui)
+    if self.__update then
+        self:__update(gui)
+    end
+end
