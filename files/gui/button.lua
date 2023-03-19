@@ -50,7 +50,7 @@ image_button.__index = function (self, key)
     return image_button[key]
 end
 
-image_button.render = make_smart_function(function (self, x, y, text, sprite_filename)
+image_button.__render = make_smart_function(function (self, x, y, text, sprite_filename)
     self.clicked, self.right_clicked = GuiImageButton(
         self.__gui.get_current_gui(),
         self.id,
