@@ -25,9 +25,9 @@ gui_item.update = function (self)
     end
 end
 
-
 gui_item.add_object = make_smart_function(function (self, object)
     table.insert(self.objects, object)
+    return object
 end, { "self", "object" })
 
 gui_item.remove_object = make_smart_function(function (self, object)

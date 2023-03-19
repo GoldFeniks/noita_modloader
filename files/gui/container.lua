@@ -23,6 +23,7 @@ end, { "self" })
 
 container.add_child = make_smart_function(function (self, child)
     table.insert(self.children, child)
+    return child
 end, { "self", "child" })
 
 container.remove_child = make_smart_function(function (self, child)
