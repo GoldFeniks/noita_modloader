@@ -21,13 +21,13 @@ entity_descriptor.find = make_smart_function(function (self, tag_name, filters, 
 end, { "self", "tag_name", "filters", "levels", "allow_recursive" }, { filters={}, levels=1, allow_recursive=false })
 
 entity_descriptor.add_component = make_smart_function(function (self, name, parameters, children)
-    local tag = xml_tag(name, parameters, children)
-    self:add_child(self, tag)
+    local tag = xml_tag:new(name, parameters, children)
+    self.root_tag:add_child(tag)
     return tag
 end, { "self", "name", "parameters", "children" })
 
 entity_descriptor.add_lua_script = make_smart_function(function (self, path, interval, parameters)
-    parameters = parameters or nil
+    parameters = parameters or {}
     parameters.script_source_file = path
     parameters.execute_every_n_frame = interval
 
