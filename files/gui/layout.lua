@@ -61,7 +61,7 @@ horizontal_layout.__render = make_smart_function(function (self, x, y, position_
         margin_y or self.margin_y
     )    
 
-    container.__render(self, {x=0, y=0})
+    container.__render(self, 0, 0)
 
     GuiLayoutEnd(gui)
 end, { "self", "x", "y", "position_in_ui_scale", "margin_x", "margin_y" })
