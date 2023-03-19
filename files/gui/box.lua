@@ -52,7 +52,7 @@ box.__put_horizontal = make_smart_function(function (self, child, x, y, width, h
         self.__current_size = c_width + padding_x
     end
 
-    child:render{ x=self.__x, y=self.__y }
+    child:render(self.__x, self.__y)
     
     self.__x = x + self.__current_size
     self.__max_step = math.max(self.__max_step, c_height)
@@ -71,7 +71,7 @@ box.__put_vertical = make_smart_function(function (self, child, x, y, width, hei
         self.__current_size = c_height + padding_y
     end
 
-    child:render{ x=self.__x, y=self.__y }
+    child:render(self.__x, self.__y)
     
     self.__y = y + self.__current_size
     self.__max_step = math.max(self.__max_step, c_width)
@@ -93,7 +93,9 @@ box.__render = make_smart_function(function (self, x, y, width, height, padding_
     self.__current_size = 0
 
     for _, child in ipairs(self.children) do
-        self:__put_child(child, x, y, width, height, padding_x, padding_y)
+        if child.enabled then
+            self:__put_child(child, x, y, width, height, padding_x, padding_y)
+        end
     end
 
     if self.__put_child == self.__put_horizontal then

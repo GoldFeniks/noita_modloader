@@ -40,22 +40,27 @@ grid.__render = make_smart_function(function (self, x, y, margin_x, margin_y, wi
     )
 
     local n_items = 0
+    local got_size = false
 
-    GuiLayoutBeginVertical(gui, 0, 0, 0, row_margin)
-    GuiLayoutBeginHorizontal(gui, 0, 0, col_margin, 0)
+    GuiLayoutBeginVertical(gui, 0, 0, self.row_margin, 0)
+    GuiLayoutBeginHorizontal(gui, 0, 0, 0, self.col_margin)
+
     for i, child in ipairs(self.children) do
-        child:render{x=0, y=0}
+        if child.enabled then
+            child:render(0, 0)
 
-        if i == 1 then
-            self.item_width = self.item_width or child.info.width
-            self.item_height = self.item_height or child.info.height
-        end
+            if not got_size then
+                self.item_width  = self.item_width or child.info.width
+                self.item_height = self.item_height or child.info.height
+                got_size = true
+            end
 
-        n_items = n_items + 1
-        if n_items == self.n_cols then
-            n_items = 0
-            GuiLayoutEnd(gui)
-            GuiLayoutBeginHorizontal(gui, 0, 0, col_margin, 0)
+            n_items = n_items + 1
+            if n_items == self.n_cols then
+                n_items = 0
+                GuiLayoutEnd(gui)
+                GuiLayoutBeginHorizontal(gui, 0, 0, 0, self.col_margin)
+            end
         end
     end
 
