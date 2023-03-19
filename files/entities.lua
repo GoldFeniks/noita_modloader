@@ -33,7 +33,7 @@ entities.patch = make_smart_function(function (self, path, update)
     end
 
     local entity = self:load(path)
-    update(entity)
+    update(entity, self.loader)
     entity:save()
 end, { "self", "path", "update" })
 
