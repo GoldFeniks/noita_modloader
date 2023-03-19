@@ -48,7 +48,7 @@ end, { "self", "child" })
 container.update = function (self)
     for _, child in ipairs(self.children) do
         if child.update ~= nil then
-            child:update()
+            child:update(gui)
         end
     end
 end

@@ -16,11 +16,11 @@ end
 
 button.__handle_clicks = function (self)
     if self.clicked and self.on_clicked ~= nil then
-        self:on_clicked()
+        self:on_clicked(self.__gui.get_current_gui())
     end
 
     if self.right_clicked and self.on_right_clicked ~= nil then
-        self:on_right_clicked()
+        self:on_right_clicked(self.__gui.get_current_gui())
     end
 
     return self.clicked, self.right_clicked

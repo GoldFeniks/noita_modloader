@@ -20,7 +20,7 @@ end
 gui_item.update = function (self)
     for _, object in ipairs(self.objects) do
         if object.update ~= nil then
-            object:update()
+            object:update(self.__gui)
         end
     end
 end
