@@ -16,6 +16,11 @@ container.__render = function (self, ...)
     end
 end
 
+container.new = make_smart_function(function (self, extra)
+    extra.children = extra.children or {}
+    return gui_object.new(self, extra)    
+end, { "self" })
+
 container.add_child = make_smart_function(function (self, child)
     table.insert(self.children, child)
 end, { "self", "child" })
