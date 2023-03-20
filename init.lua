@@ -4,9 +4,9 @@ dofile_once("mods/modloader/files/modloader.lua")
 dofile_once("mods/modloader/files/templates.lua")
 
 local entity_patches = {}
-local registered = ModTextFileGetContent(MODLOADER_REGISTERED_PATH) or ""
+local mods = ModGetActiveModIDs()
 
-for mod_id in string.gmatch(registered, "([%w_]+)\n") do
+for _, mod_id in ipairs(mods) do
     local mod = modloader:new(mod_id)
 
     local appends = ModTextFileGetContent(mod:__get_appends_path()) or ""

@@ -70,8 +70,6 @@ modloader.add_gui = make_smart_function(function (self, path)
 end, { "self", "path" })
 
 modloader.finalize = function (self)
-    local content = ModTextFileGetContent(MODLOADER_REGISTERED_PATH) or ""
-    ModTextFileSetContent(MODLOADER_REGISTERED_PATH, content .. self.mod_id .. "\n")
 end
 
 modloader.get_current_mod_id = make_smart_function(function(mod_id, loader)
