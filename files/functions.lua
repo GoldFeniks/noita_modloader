@@ -30,6 +30,10 @@ functions.load = make_smart_function(function (self, name)
     return loaded_descriptor:new({ descriptor=descriptor, loader=self.loader })
 end, { "self", "name" })
 
+functions.prepend = make_smart_function(function (self, name, func)
+    return self:__get_descriptor(name):prepend(func, self.loader.mod_id)
+end, { "self", "name", "func" })
+
 functions.append = make_smart_function(function (self, name, func)
     return self:__get_descriptor(name):append(func, self.loader.mod_id)
 end, { "self", "name", "func" })

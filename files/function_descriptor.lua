@@ -15,12 +15,17 @@ function_descriptor.new = make_smart_function(function (self, name, func)
         __name=name,
         __original_func=func,
         __original=func,
+        __prepends={},
         __appends={},
         __update_return={}
     }
 
     func.__implementation = function(...)
         returns = {}
+
+        for id, f in pairs(func.__prepends) do
+            f(...)
+        end
 
         if func.__original ~= nil then
             returns["__original"] = func.__original(...)
@@ -41,6 +46,10 @@ function_descriptor.new = make_smart_function(function (self, name, func)
 
     return descriptor.new(self, func)
 end, { "self", "name", "func" })
+
+function_descriptor.prepend = make_smart_function(function (self, func, mod_id)
+    self.__prepends[modloader.get_current_mod_id(mod_id, self.loader)] = func
+end, { "self", "func", "mod_id" })
 
 function_descriptor.append = make_smart_function(function (self, func, mod_id)
     self.__appends[modloader.get_current_mod_id(mod_id, self.loader)] = func
