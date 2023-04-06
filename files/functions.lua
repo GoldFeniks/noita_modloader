@@ -71,7 +71,7 @@ functions.handle_returns = make_smart_function(function (self, name, func, overw
 end, { "self", "name", "func", "overwrite" }, { overwrite=false })
 
 functions.update_return = make_smart_function(function (self, name, func)
-    return self:__get_descriptor(name):handle_returns(func, self.loader.mod_id)
+    return self:__get_descriptor(name):update_return(func, self.loader.mod_id)
 end, { "self", "name", "func" })
 
 modloader.__subclasses['functions'] = functions
