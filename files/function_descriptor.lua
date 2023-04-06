@@ -35,10 +35,11 @@ function_descriptor.new = make_smart_function(function (self, name, func)
             returns[id] = f(...)
         end
 
-        local return_value = func.__handle_returns and func.handle_returns(returns) or returns["__original"] 
+        local return_value = func.__handle_returns and func.handle_returns(returns) or returns["__original"]
 
+        local args = table.pack(...)
         for id, f in pairs(func.__update_return) do
-            return_value = f(return_value, returns)
+            return_value = f(return_value, returns, args)
         end
 
         return return_value
@@ -121,5 +122,5 @@ function_descriptor.handle_returns = make_smart_function(function (self, func, o
 end, { "self", "func", "overwrite", "mod_id" }, { overwrite=false })
 
 function_descriptor.update_return = make_smart_function(function (self, func, mod_id)
-    self.update_return[modloader.get_current_mod_id(mod_id, self.loader)] = func
+    self.__update_return[modloader.get_current_mod_id(mod_id, self.loader)] = func
 end, { "self", "func", "mod_id" })
