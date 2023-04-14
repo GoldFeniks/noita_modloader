@@ -21,25 +21,32 @@ function_descriptor.new = make_smart_function(function (self, name, func)
     }
 
     func.__implementation = function(...)
-        returns = {}
+        local data = {
+            args=table.pack(...),
+            returns={},
+            prepend_returns={}
+        }
+
+        table.insert(data.args, data)
 
         for id, f in pairs(func.__prepends) do
-            f(...)
+            data.prepend_returns[id] = f(table.unpack(data.args))
         end
 
         if func.__original ~= nil then
-            returns["__original"] = func.__original(...)
+            table.remove(data.args)
+            data.returns["__original"] = func.__original(table.unpack(data.args))
+            table.insert(data.args, data)
         end
 
         for id, f in pairs(func.__appends) do
-            returns[id] = f(...)
+            data.returns[id] = f(table.unpack(data.args))
         end
 
-        local return_value = func.__handle_returns and func.handle_returns(returns) or returns["__original"]
+        local return_value = func.__handle_returns and func.handle_returns(data.returns, data) or data.returns["__original"]
 
-        local args = table.pack(...)
         for id, f in pairs(func.__update_return) do
-            return_value = f(return_value, returns, args)
+            return_value = f(return_value, data)
         end
 
         return return_value
@@ -123,4 +130,16 @@ end, { "self", "func", "overwrite", "mod_id" }, { overwrite=false })
 
 function_descriptor.update_return = make_smart_function(function (self, func, mod_id)
     self.__update_return[modloader.get_current_mod_id(mod_id, self.loader)] = func
+end, { "self", "func", "mod_id" })
+
+function_descriptor.replace_original = make_smart_function(function (self, func, mod_id)
+    if self.__original_provided_by ~= nil then
+        return false
+    end
+
+    self:disable_original(mod_id)
+
+    self.__original = func
+    self.__original_provided_by = modloader.get_current_mod_id(mod_id, self.loader)
+    return true
 end, { "self", "func", "mod_id" })

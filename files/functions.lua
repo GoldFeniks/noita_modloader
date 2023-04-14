@@ -74,4 +74,8 @@ functions.update_return = make_smart_function(function (self, name, func)
     return self:__get_descriptor(name):update_return(func, self.loader.mod_id)
 end, { "self", "name", "func" })
 
+functions.replace_original = make_smart_function(function (self, name, func)
+    return self:__get_descriptor(name):replace_original(func, self.loader.mod_id)
+end, { "self", "name", "func" })
+
 modloader.__subclasses['functions'] = functions
