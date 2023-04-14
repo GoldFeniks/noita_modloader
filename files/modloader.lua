@@ -8,6 +8,7 @@ modloader.__mods = {}
 modloader.__name = "modloader"
 modloader.__subclasses = {}
 modloader.__allowed_subclasses = {
+    "perks",
     "events",
     "actions",
     "entities",
