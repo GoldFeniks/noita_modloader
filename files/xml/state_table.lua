@@ -62,7 +62,7 @@ function state_change(changes)
                 return changes.unknown
             end
 
-            if in_range(code, 65, 91) or in_range(code, 97, 123) then
+            if in_range(code, 65, 91) or in_range(code, 97, 123) or code == 95 then
                 return changes.letters
             end
 
