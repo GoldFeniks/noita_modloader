@@ -201,6 +201,7 @@ state_table.state_changes = {
     },
     [states.COMMENT_END_SECOND_DASH]=state_change{
         [">"]=states.COMMENT_END,
+        default=states.COMMENT
     },
     [states.COMMENT_END]=state_change{
         ["<"]=states.TAG_START,
