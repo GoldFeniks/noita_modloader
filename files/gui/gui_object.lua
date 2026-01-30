@@ -6,6 +6,7 @@ gui_object = base:new()
 gui_object.__name = "gui_object"
 gui_object.__index = gui_object
 gui_object.__needs_id = true
+gui_object.__handles_clicks = false
 
 gui_object.__current_id = 1
 gui_object.__next_id = function ()
@@ -26,6 +27,16 @@ gui_object.__make_render_function = function(self, func, params)
 
         return func(this.__gui.get_current_gui(), table.unpack(arguments, 1, #params - 1))
     end, params)
+end
+
+gui_object.__handle_clicks = function (self)
+    if self.info.clicked and self.on_clicked ~= nil then
+        self:on_clicked(self.__gui.get_current_gui())
+    end
+
+    if self.info.right_clicked and self.on_right_clicked ~= nil then
+        self:on_right_clicked(self.__gui.get_current_gui())
+    end
 end
 
 gui_object.new = make_smart_function(function (self, x, y, options, extra)
@@ -84,7 +95,7 @@ gui_object.render = function (self, ...)
     self.info.updated = false
 
     if self.z_order ~= nil then
-        GuiZSetForNextWidget(self.__gui.get_current_gui(), self.z_order)
+        GuiZSet(self.__gui.get_current_gui(), self.z_order)
     end
 
     local result = self:__render(...)
@@ -93,8 +104,12 @@ gui_object.render = function (self, ...)
         self:populate_info()
     end
 
-    if self.info.hovered and self.on_hover then
+    if self.info.hovered and self.on_hover ~= nil then
         self:on_hover(self.__gui.get_current_gui())
+    end
+
+    if not self.__handles_clicks then
+        self:__handle_clicks()
     end
 
     return result

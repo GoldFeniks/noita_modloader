@@ -5,6 +5,7 @@ dofile_once("mods/modloader/files/gui/gui_object.lua")
 
 button = gui_object:new()
 button.__name = "button"
+button.__handles_clicks = true
 button.__index = function (self, key)
     if key == "width" or key == "height" then
         local width, height = text.__get_text_dimensions(self)
@@ -41,6 +42,7 @@ end, { "self", "x", "y", "text" })
 
 image_button = button:new()
 image_button.__name = "image_button"
+image_button.__handles_clicks = true
 image_button.__index = function (self, key)
     if key == "width" or key == "height" then
         local width, height = image.__get_image_dimensions(self)
