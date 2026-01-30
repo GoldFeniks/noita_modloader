@@ -83,6 +83,10 @@ gui_object.render = function (self, ...)
     self:apply_options()
     self.info.updated = false
 
+    if self.z_order ~= nil then
+        GuiZSetForNextWidget(self.__gui.get_current_gui(), self.z_order)
+    end
+
     local result = self:__render(...)
 
     if not self.info.updated then
