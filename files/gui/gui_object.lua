@@ -14,7 +14,7 @@ gui_object.__next_id = function ()
     return gui_object.__current_id
 end
 
-gui_object.__make_render_function = function(self, func, params)
+gui_object.__make_render_function = function(self, func, params, defaults)
     return make_smart_function(function (this, ...)
         local arguments = table.pack(...)
         for i=1,#params - 1 do
@@ -26,7 +26,7 @@ gui_object.__make_render_function = function(self, func, params)
         end
 
         return func(this.__gui.get_current_gui(), table.unpack(arguments, 1, #params - 1))
-    end, params)
+    end, params, defaults)
 end
 
 gui_object.__handle_clicks = function (self)
@@ -94,8 +94,11 @@ gui_object.render = function (self, ...)
     self:apply_options()
     self.info.updated = false
 
+    local gui = self.__gui.get_current_gui()
+    local was_hovered = self.info.hovered
+
     if self.z_order ~= nil then
-        GuiZSet(self.__gui.get_current_gui(), self.z_order)
+        GuiZSet(gui, self.z_order)
     end
 
     local result = self:__render(...)
@@ -104,8 +107,16 @@ gui_object.render = function (self, ...)
         self:populate_info()
     end
 
-    if self.info.hovered and self.on_hover ~= nil then
-        self:on_hover(self.__gui.get_current_gui())
+    if self.info.hovered then
+        if not was_hovered and self.on_hover_enter ~= nil then
+            self:on_hover_enter(gui)
+        end
+
+        if self.on_hover ~= nil then
+            self:on_hover(gui)
+        end
+    elseif was_hovered and self.on_hover_exit ~= nil then
+        self:on_hover_exit(gui)
     end
 
     if not self.__handles_clicks then

@@ -3,8 +3,33 @@ dofile_once("mods/modloader/files/gui/gui_object.lua")
 
 container = gui_object:new()
 container.__name = "container"
-container.__index = container
+container.__index = function (self, key)
+    if key == "width" then
+        local width = 0
+        for i, v in ipairs(self.children) do
+            if v.enabled then
+                width = math.max(width, v.width)
+            end
+        end
+
+        return width
+    end
+
+    if key == "height" then
+        local height = 0
+        for i, v in ipairs(self.children) do
+            if v.enabled then
+                height = math.max(height, v.height)
+            end
+        end
+
+        return height
+    end
+
+    return container[key]
+end
 container.__needs_id = false
+
 
 container.__render = function (self, ...)
     for i, child in ipairs(self.children) do
