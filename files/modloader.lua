@@ -13,6 +13,7 @@ modloader.__allowed_subclasses = {
     "actions",
     "entities",
     "functions",
+    "global_events",
 }
 
 modloader.__index = function(self, key)
@@ -88,5 +89,9 @@ end
 
 modloader.__get_guis_path = function (self)
     return string.format(MOD_GUIS_TEMPLATE, self.mod_id)
+end
+
+modloader.__get_global_events_path = function (self)
+    return string.format(MOD_GLOBAL_EVENTS_TEMPLATE, self.mod_id)
 end
 
