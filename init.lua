@@ -37,9 +37,9 @@ for _, mod_id in ipairs(mods) do
         if action == "create" then
             local event_key = mod_id .. "_" .. name
             global_events_creates[event_key] = {
-                mod_id = mod_id,
-                name = name,
-                poll_frequency = tonumber(rest)
+                mod_id=mod_id,
+                name=name,
+                poll_frequency=tonumber(rest)
             }
         elseif action == "subscribe" then
             local handler, source_mod_id = string.match(rest, "([^\t]+)\t?([^\t]*)")
@@ -51,8 +51,8 @@ for _, mod_id in ipairs(mods) do
                 global_events_subs[event_key] = {}
             end
             table.insert(global_events_subs[event_key], {
-                subscriber_mod_id = mod_id,
-                handler = handler
+                subscriber_mod_id=mod_id,
+                handler=handler
             })
         end
     end
