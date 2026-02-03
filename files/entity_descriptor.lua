@@ -39,6 +39,7 @@ end, { "self", "path", "interval", "parameters" }, { interval=1 })
 
 
 local events = {
+    "enabled_changed",
     "damage_received",
     "damage_about_to_be_received",
     "item_picked_up",
@@ -59,7 +60,9 @@ local events = {
     "audio_event_dead",
     "wand_fired",
     "teleported",
-    "portal_teleport_used"
+    "portal_teleport_used",
+    "polymorphing_to",
+    "biome_entered"
 }
 
 for i, value in ipairs(events) do
